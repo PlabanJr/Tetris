@@ -5,7 +5,6 @@ class Tetris
     
     public static void main(String[] args)
     {
-        //Frame f = new Frame();
         Random rand = new Random();
         Shape[] shape = new Shape[4];
         Board board = new Board(20,30);
