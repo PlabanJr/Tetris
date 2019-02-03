@@ -418,40 +418,15 @@ class Tetris
         int move_val = -1;
         Scanner input = new Scanner(System.in);
         char feed = '\0';
-        queue[] undo = new queue[100];
-        queue[] redo = new queue[100];
-
-        Integer undoTop = new Integer(-1);
-        int redoTop = -1;
+       
         do
         {
             display_board(board,shape);
             feed = input.next().charAt(0);
             move_val = move(shape,board,feed);
+          
             
-            try
-            {
-                undo[++undoTop].push(board,shape);
-            }
-            catch(java.lang.NullPointerException e)
-            {
-                System.out.println("--Error Error--");
-            }
-            
-
-            if(move_val == 99)
-            {
-                redo[++redoTop].push(undo[undoTop].contBoard, undo[undoTop].contShape);
-                board = undo[undoTop].contBoard;
-                
-                for(int i=0;i<4;i++)
-                {
-                    shape[i] = undo[undoTop].contShape[i];
-                }
-
-                undoTop--;
-            }
-            else if(move_val == 1)
+            if(move_val == 1)
             {
                 put_shape_in_board(board,shape);
                 generate_shapes(shape,rand.nextInt(7));
@@ -459,6 +434,7 @@ class Tetris
             }
         }
         while(feed != 'x');
+        
         input.close();
         
     }
@@ -736,45 +712,3 @@ class Shape
     char shape;
 }
 
-class queue
-{
-    Board contBoard;
-    Shape[] contShape;
-
-    public void push(Board board,Shape[] shape)
-    {
-        int row = 20;
-        int col = 30;
-        Board contBoard = new Board(row,col);
-        Shape[] contShape = new Shape[4];
-
-        contBoard.container = board.container;
-        // contShape = shape;
-        for(int i=0;i<4;i++)
-        {
-            contShape[i].coord_x = shape[i].coord_x;
-            contShape[i].coord_y = shape[i].coord_y;
-            contShape[i].shape = shape[i].shape;
-            //contShape = Arrays.copyOf(shape, 4);
-
-        }
-    }
-}
-
-/*
-
-        for(int row=0;row<3;row++)
-        {
-            for(int col=0;col<3;col++)
-            {
-                System.out.print(shape.container[row][col]);
-            }
-            System.out.println();
-        }
-
-
-        System.out.println(shape.initial_x);
-        System.out.println(shape.initial_y);
-        System.out.println(shape.final_x);
-        System.out.println(shape.final_y);
-*/
